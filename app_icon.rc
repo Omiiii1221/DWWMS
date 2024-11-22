@@ -1,0 +1,17 @@
+IDI_ICON1 ICON "DWWMSLOGO.ico"
+
+
+
+/* 
+ process to follow 
+
+ q -> i want to change default exe icon to user defined icon
+
+ step 1  make a .ico file (serch on google jpg to ico and convert it from there)
+ step 2  make a .rc file 
+ step3   add .ico files location in it (IDI_ICON1 ICON "AppIcon.ico")
+ step 4 on terminal compile rc file and make res file ( windres -O coff app_icon.rc -o app_icon.res)
+ step 5 add that res file toi main file  
+     ( gcc -o Daily_Wage_Worker_Management_System worker.c attendance.c calculation.c functions.c menu.c main.c app_icon.res )
+*/
+
