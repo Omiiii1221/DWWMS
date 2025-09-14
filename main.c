@@ -14,10 +14,10 @@ int main()
 {
     int choice, workerID;
     char monthYear[10];
+    makefolder();
 
     loginMenu();
     
-    makefolder();
 
     while (1)
     {

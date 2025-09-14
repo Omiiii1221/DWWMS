@@ -7,7 +7,17 @@
 #define WORKER_FILE "C:\\DWWMS\\workers.dat"
 #define TEMP_FILE "C:\\DWWMS\\temp.dat"
 
-// Function to add a worker
+long countWorkersInFile(void)
+{
+    FILE *f = fopen(WORKER_FILE, "rb");
+    if (!f) return 0;
+    if (fseek(f, 0, SEEK_END) != 0) { fclose(f); return 0; }
+    long filesize = ftell(f);
+    fclose(f);
+    if (filesize < (long)sizeof(Worker)) return 0;
+    return filesize / (long)sizeof(Worker);
+}
+
 void addWorker(Worker worker)
 {
     FILE *file = fopen(WORKER_FILE, "ab");
@@ -16,15 +26,30 @@ void addWorker(Worker worker)
         perror("\n\t\tError opening file");
         return;
     }
-    fwrite(&worker, sizeof(Worker), 1, file);
+    if (fwrite(&worker, sizeof(Worker), 1, file) != 1) {
+        perror("\n\t\tError writing worker record");
+    } else {
+        printf("\n\t\tWorker added successfully (ID %d).\n", worker.workerID);
+    }
     fclose(file);
-    printf("\n\t\tWorker added successfully.\n");
 }
 
-// Function to display all workers
+/* display all workers */
 void displayWorkers()
 {
     system("cls");
+
+    long total = countWorkersInFile();
+    if (total == 0) {
+        positionChanger(0,5);
+        printf("\t\t==================================================================================================================================\n");
+        printf("                                                   \033[36m\t\tDISPLAY WORKER\033[0m \n");
+        printf("\t\t==================================================================================================================================\n");
+        printf("\n\t\tNo workers found.\n");
+        getchar();
+        return;
+    }
+
     FILE *file = fopen(WORKER_FILE, "rb");
     if (file == NULL)
     {
@@ -39,23 +64,24 @@ void displayWorkers()
     printf("\t\t==================================================================================================================================\n");
     printf("\n\t\t\t\t\t\tWorker ID    |        Name         |     Contact No       | Hourly Rate   \n");
     printf("\t\t\t\t\t-----------------------------------------------------------------------------------\n");
-    while (fread(&worker, sizeof(Worker), 1, file))
+    while (fread(&worker, sizeof(Worker), 1, file) == 1)
     {
-        // printf("\t\t\t\t\t%d\t%s\t%s\t%.2f\n", worker.workerID, worker.name, worker.contactNumber, worker.hourlyRate);
-        printf("\t\t\t\t\t\t%-12d |%-20s | %-20s | %-2.f\n", worker.workerID, worker.name, worker.contactNumber, worker.hourlyRate);
+        printf("\t\t\t\t\t\t%-12d | %-20s | %-20s | %.2f\n",
+               worker.workerID, worker.name, worker.contactNumber, worker.hourlyRate);
     }
 
     fclose(file);
     getchar();
 }
 
-// Function to delete a worker by ID
+/* delete a worker by ID */
 void deleteWorker(int workerID)
 {
     FILE *file = fopen(WORKER_FILE, "rb");
     if (file == NULL)
     {
-        perror("\n\t\tError opening worker file");
+        positionChanger(60, 20);
+        printf("\n\t\tNo workers found. Nothing to delete.\n");
         return;
     }
 
@@ -70,7 +96,7 @@ void deleteWorker(int workerID)
     Worker worker;
     int found = 0;
 
-    while (fread(&worker, sizeof(Worker), 1, file))
+    while (fread(&worker, sizeof(Worker), 1, file) == 1)
     {
         if (worker.workerID != workerID)
         {
@@ -87,8 +113,13 @@ void deleteWorker(int workerID)
 
     if (found)
     {
-        remove(WORKER_FILE);
-        rename(TEMP_FILE, WORKER_FILE);
+        if (remove(WORKER_FILE) != 0) {
+            perror("\n\t\tError removing original worker file");
+        } else {
+            if (rename(TEMP_FILE, WORKER_FILE) != 0) {
+                perror("\n\t\tError renaming temporary file");
+            }
+        }
         positionChanger(60, 20);
         printf("\n\t\tWorker with ID %d has been deleted.\n", workerID);
     }
@@ -100,10 +131,19 @@ void deleteWorker(int workerID)
     }
 }
 
-// Function to search for a worker by ID
+/* search for a worker by ID */
 void searchWorker(int workerID)
 {
     system("cls");
+
+    long total = countWorkersInFile();
+    if (total == 0) {
+        positionChanger(60, 11);
+        printf("\n\t\tNo workers found.\n");
+        getchar();
+        return;
+    }
+
     FILE *file = fopen(WORKER_FILE, "rb");
     if (file == NULL)
     {
@@ -114,7 +154,7 @@ void searchWorker(int workerID)
     Worker worker;
     int found = 0;
 
-    while (fread(&worker, sizeof(Worker), 1, file))
+    while (fread(&worker, sizeof(Worker), 1, file) == 1)
     {
         if (worker.workerID == workerID)
         {
@@ -139,6 +179,7 @@ void searchWorker(int workerID)
 
     if (!found)
     {
+        positionChanger(60, 11);
         printf("\n\t\tWorker with ID %d not found.\n", workerID);
     }
 

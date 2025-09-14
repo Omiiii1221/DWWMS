@@ -12,7 +12,7 @@
 #define ATTENDANCE_FILE "C:\\DWWMS\\attendance.dat"
 #define WAGE_FILE "C:\\DWWMS\\wages.dat"
 
-// Function to calculate and save daily wage
+// calculate and save daily wage
 void calculateDailyWage(int workerID, const char *date)
 {
     FILE *attendanceFile = fopen(ATTENDANCE_FILE, "rb");
@@ -26,7 +26,6 @@ void calculateDailyWage(int workerID, const char *date)
     float totalHours = 0.0f;
     int foundAttendance = 0;
 
-    // Search for the attendance record
     while (fread(&record, sizeof(AttendanceRecord), 1, attendanceFile))
     {
         if (record.workerID == workerID && strcmp(record.date, date) == 0)
@@ -176,21 +175,3 @@ void generateMonthlyReport(const char *monthYear)
     printf("\n\t\tMonthly report generated and saved in %s.\n", path);
      getchar();
 }
-
-// int main()
-// {
-//     char monthYear[8];
-//     int workerID;
-
-//     printf("Enter Month and Year (MM-YYYY): ");
-//     scanf(" %[^\n]", monthYear);
-//     generateMonthlyReport(monthYear);
-
-//     printf("Enter worker ID: ");
-//     scanf("%d", &workerID);
-//     printf("Enter Date (DD-MM-YYYY): ");
-//     scanf(" %[^\n]", monthYear);
-//     calculateDailyWage(workerID, monthYear);
-
-//     return 0;
-// }

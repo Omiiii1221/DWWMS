@@ -5,7 +5,7 @@ IDI_ICON1 ICON "DWWMSLOGO.ico"
 /* 
  process to follow 
 
- q -> i want to change default exe icon to user defined icon
+ *  to change default exe icon to user defined icon
 
  step 1  make a .ico file (serch on google jpg to ico and convert it from there)
  step 2  make a .rc file 

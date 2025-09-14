@@ -10,7 +10,7 @@
 
 #define ATTENDANCE_FILE "C:\\DWWMS\\attendance.dat"
 
-#define WORKER_FILE "C:\\DWWMS\\workers.dat" // Change to .dat if binary format is used
+#define WORKER_FILE "C:\\DWWMS\\workers.dat" 
 #define REPORT_FILE "C:\\DWWMS\\report.csv"
 #define ATTENDANCE_FILE "C:\\DWWMS\\attendance.dat"
 
