@@ -1,0 +1,14 @@
+how to make folders in c
+https://youtu.be/VHsWVQXoTMI?si=mNFKzyaOOaOT75OF
+
+login and signup 
+https://youtu.be/xtk14TcWaN4?si=i-r2Athl2Aa_swH6
+
+how to create csv files 
+https://youtu.be/iRwG5-3RIXo?si=KM1r80iBi0Rred9D
+
+Read csv files 
+https://youtu.be/rbVt5v8NNe8?si=nUTns0fU0kKItqA-
+
+How to Compile code in c
+https://youtube.com/shorts/rEIzemtSngg?si=qxCrU0JGfUsPxuQ_
