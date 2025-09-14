@@ -60,7 +60,7 @@ DWWMS/
 2. Compile the project:
 
    ```bash
-   gcc main.c worker.c attendance.c calculation.c menu.c functions.c auth.c -o dwwms.exe
+   gcc main.c worker.c attendance.c calculation.c functions.c menu.c auth.c app_icon.res -o dwwms.exe
    ```
 3. Run the program:
 
